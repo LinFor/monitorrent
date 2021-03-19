@@ -55,6 +55,11 @@ Docker build instructions:
 docker-compose build
 ```
 
+Docker run tests:
+```bash
+docker-compose -f docker-compose.tests.yml build && docker-compose -f docker-compose.tests.yml run --rm monitorrent-tests
+```
+
 #### How to run docker?
 
 Monitorrent expose 6687 tcp port. And has database to store all current settings and info about monitorrent tracker topics.
