@@ -49,15 +49,11 @@ This app can watch for torrent updates
 ## Installation:
 
 ### Docker
-ARM: https://hub.docker.com/r/werwolfby/armhf-alpine-monitorrent/
 
-[![](https://images.microbadger.com/badges/image/werwolfby/armhf-alpine-monitorrent.svg)](https://microbadger.com/images/werwolfby/armhf-alpine-monitorrent "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/werwolfby/armhf-alpine-monitorrent.svg)](https://microbadger.com/images/werwolfby/armhf-alpine-monitorrent "Get your own version badge on microbadger.com")
-
-x86: https://hub.docker.com/r/werwolfby/alpine-monitorrent/
-
-[![](https://images.microbadger.com/badges/image/werwolfby/alpine-monitorrent.svg)](https://microbadger.com/images/werwolfby/alpine-monitorrent "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/werwolfby/alpine-monitorrent.svg)](https://microbadger.com/images/werwolfby/alpine-monitorrent "Get your own version badge on microbadger.com")
+Docker build instructions:
+```bash
+docker-compose build
+```
 
 #### How to run docker?
 
