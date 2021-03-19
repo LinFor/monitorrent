@@ -5,19 +5,29 @@ RUN apt-get update \
  && apt-get install -yq --no-install-recommends nodejs npm \
  && npm install --global gulp-cli
 
+WORKDIR /app/monitorrent
+
+# Install packages
+COPY package.json /app/monitorrent
+RUN npm install
+
 # Build app
 COPY . /app/monitorrent
-WORKDIR /app/monitorrent
-RUN npm install \
- && gulp dist
+RUN gulp dist
+
+
 
 # Runtime image
 FROM python:3-slim-buster
 
 WORKDIR /var/www/monitorrent
-COPY --from=builder /app/monitorrent .
 
+# Install packages
+COPY requirements.txt /var/www/monitorrent/
 RUN pip install --no-cache-dir -r /var/www/monitorrent/requirements.txt
+
+# Install runtime files
+COPY --from=builder /app/monitorrent .
 
 EXPOSE 6687
 
