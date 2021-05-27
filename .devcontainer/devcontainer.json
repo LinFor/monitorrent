@@ -6,15 +6,29 @@
         "context": "..",
         "args": {
             // Update 'VARIANT' to pick a Python version: 3, 3.6, 3.7, 3.8, 3.9
-            "VARIANT": "3",
+            "VARIANT": "3.9",
             // Options
             "INSTALL_NODE": "true",
-            "NODE_VERSION": "lts/*",
-            "INSTALL_AZURE_CLI": "false"
+            "NODE_VERSION": "10"
         }
     },
     "workspaceFolder": "/workspace",
     "workspaceMount": "source=/home/pingwin/development/monitorrent,target=/workspace,type=bind,consistency=cached",
+	"settings": { 
+		"python.pythonPath": "/usr/local/bin/python",
+		"python.languageServer": "Pylance",
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": true,
+		"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+		"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+		"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+		"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+		"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+		"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+		"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+	},
     "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
@@ -40,4 +54,5 @@
     "containerEnv": {
         "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
     },
+    "remoteUser": "vscode"
 }

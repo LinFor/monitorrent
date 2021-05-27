@@ -21,6 +21,17 @@
                 </div>
             </md-input-container>
         </div>
+        <div layout="row" ng-if="has_download_category != null">
+            <md-input-container flex>
+                <label>Download category</label>
+                <md-select ng-model="settings.download_category" ng-disabled="has_download_category == false">
+                    <md-option ng-repeat="option in client_download_categories" value="{{option}}">{{option}}</option>
+                </select>
+                <div ng-if="has_download_category == false">
+                    <div class="md-input-message-animation">{{default_client}} doesn't support download category settings</div>
+                </div>
+            </md-input-container>
+        </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <md-button ng-click="cancel()">

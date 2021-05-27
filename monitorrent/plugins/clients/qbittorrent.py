@@ -58,7 +58,7 @@ class QBittorrentClientPlugin(object):
         }]
     }]
     DEFAULT_PORT = 8080
-    SUPPORTED_FIELDS = ['download_dir']
+    SUPPORTED_FIELDS = ['download_dir', 'download_category']
     ADDRESS_FORMAT = "{0}:{1}"
     _client = None
 
@@ -106,7 +106,7 @@ class QBittorrentClientPlugin(object):
             client = self.get_client()
             client.app_version()
             return True
-        except:
+        except Exception as inst:
             return False
 
     def find_torrent(self, torrent_hash):
@@ -132,6 +132,16 @@ class QBittorrentClientPlugin(object):
         result = client.app_default_save_path()
         return six.text_type(result)
 
+    def get_download_category(self):
+        client = self.get_client()
+        if not client:
+            return None
+
+        categories = client.torrents_categories()
+        result = ['']
+        result.extend(categories.keys())
+        return result
+
     def add_torrent(self, torrent_content, torrent_settings):
         """
         :type torrent_settings: clients.TopicSettings | None
@@ -141,12 +151,16 @@ class QBittorrentClientPlugin(object):
             return False
 
         savepath = None
+        category = None
         auto_tmm = None
-        if torrent_settings is not None and torrent_settings.download_dir is not None:
-            savepath = torrent_settings.download_dir
-            auto_tmm = False
+        if torrent_settings is not None:
+            if torrent_settings.download_dir is not None:
+                savepath = torrent_settings.download_dir
+                auto_tmm = False
+            if torrent_settings.download_category is not None:
+                category = torrent_settings.download_category
 
-        res = client.torrents_add(save_path=savepath, use_auto_torrent_management=auto_tmm, torrent_contents=[('file.torrent', torrent_content)])
+        res = client.torrents_add(save_path=savepath, category=category, use_auto_torrent_management=auto_tmm, torrent_contents=[('file.torrent', torrent_content)])
         if 'Ok' in res:
             torrent = Torrent(torrent_content)
             torrent_hash = torrent.info_hash

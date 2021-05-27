@@ -1,5 +1,5 @@
-ARG VARIANT="3"
-FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
+ARG VARIANT="3.9"
+FROM mcr.microsoft.com/vscode/devcontainers/python:${VARIANT}
 
 # [Optional] Allow the vscode user to pip install globally w/o sudo
 ENV PIP_TARGET=/usr/local/pip-global
@@ -13,45 +13,17 @@ RUN if ! cat /etc/group | grep -e "^pip-global:" > /dev/null 2>&1; then groupadd
 
 # [Option] Install Node.js
 ARG INSTALL_NODE="true"
-ARG NODE_VERSION="lts/*"
+ARG NODE_VERSION="10"
 RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
-COPY requirements.txt /tmp/pip-tmp/
-RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+COPY requirements.txt requirements-dev.txt /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements-dev.txt \
    && rm -rf /tmp/pip-tmp
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+#     && apt-get -y install --no-install-recommends nodejs npm
 
 # [Optional] Uncomment this line to install global node packages.
-RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g gulp-cli" 2>&1
-
-# WORKDIR /workspace
-
-# # Install packages
-# COPY package.json /app/monitorrent
-# RUN npm install
-
-# # Build app
-# COPY . /app/monitorrent
-# RUN gulp dist
-
-
-
-# # Runtime image
-# FROM python:3-slim-buster
-
-# WORKDIR /var/www/monitorrent
-
-# # Install packages
-# # COPY requirements.txt /var/www/monitorrent/
-# # RUN pip install --no-cache-dir -r /var/www/monitorrent/requirements.txt
-
-# # Install runtime files
-# COPY --from=builder /app/monitorrent .
-
-# EXPOSE 6687
-
-# CMD ["python3", "server.py"]
+RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g npm@7.14.0 && npm install -g gulp-cli" 2>&1

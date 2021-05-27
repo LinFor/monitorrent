@@ -10,8 +10,7 @@
             </a>
             
             <div class="md-list-item-text">
-                <h3 hide-xs>{{torrent.display_name}}</h3>
-                <a ng-href="{{torrent.url}}" target="_blank" hide-gt-xs>
+                <a ng-href="{{torrent.url}}" target="_blank">
                     <h3>{{torrent.display_name}}</h3>
                 </a>
                 <p>Last update: {{(torrent.last_update | date : 'dd.MM.yyyy HH:mm:ss') || 'not specified'}}</p>

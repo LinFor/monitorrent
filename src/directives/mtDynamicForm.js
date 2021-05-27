@@ -81,14 +81,20 @@ app.directive('mtDynamicForm', function($compile, $parse) {
                     for (var i = 0; i < newElements.length; i++) {
                         newElements[i] = $compile(newElements[i])($scope);
                     }
-                    var newElement = newElements;
                     if (Array.isArray(sourceElement)) {
                         while (sourceElement.length > 1) {
                             sourceElement.pop().remove();
                         }
                         sourceElement = sourceElement.pop();
                     }
+                    var newElement = newElements.shift()
                     sourceElement.replaceWith(newElement);
+                    if (newElements && newElements.length > 0) {
+                        for (var i = 0; i < newElements.length; i++) {
+                            newElement.after(newElements[i])
+                            newElement = newElements[i];
+                        }
+                    }
                     sourceElement = newElement;
                 }
             };

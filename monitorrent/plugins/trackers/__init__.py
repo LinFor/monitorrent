@@ -132,6 +132,7 @@ class TrackerPluginBase(with_metaclass(abc.ABCMeta, object)):
             data = row2dict(topic, None, self.topic_public_fields)
             data['info'] = self.get_topic_info(topic)
             data['download_dir'] = topic.download_dir
+            data['download_category'] = topic.download_category
             return data
 
     def update_topic(self, id, params):
@@ -179,7 +180,7 @@ class TrackerPluginBase(with_metaclass(abc.ABCMeta, object)):
         """
         fields = None
         if self.topic_private_fields is not None:
-            fields = self.topic_private_fields + ['download_dir']
+            fields = self.topic_private_fields + ['download_dir', 'download_category']
         dict2row(topic, params, fields)
 
 
