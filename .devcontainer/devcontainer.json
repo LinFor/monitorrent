@@ -1,0 +1,43 @@
+//devcontainer.json
+{
+    "name": "Monitorrent Devcontainer",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+        "args": {
+            // Update 'VARIANT' to pick a Python version: 3, 3.6, 3.7, 3.8, 3.9
+            "VARIANT": "3",
+            // Options
+            "INSTALL_NODE": "true",
+            "NODE_VERSION": "lts/*",
+            "INSTALL_AZURE_CLI": "false"
+        }
+    },
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=/home/pingwin/development/monitorrent,target=/workspace,type=bind,consistency=cached",
+    "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "mhutchie.git-graph",
+        "github.vscode-pull-request-github",
+        "editorconfig.editorconfig",
+    ],
+    "forwardPorts": [
+        6687
+    ],
+    "portsAttributes": {
+        "6687": {
+            "label": "http",
+            "onAutoForward": "notify"
+        }
+    },
+    "mounts": [
+        "source=vscode-extensions,target=/root/.vscode-server/extensions,type=volume",
+        // "source=/home/pingwin/development/jellyfin-data,target=/jellyfin-data,type=bind,consistency=cached",
+        // "source=/storage/torrents,target=/jellyfin-media,type=bind,consistency=cached",
+        // "source=/home/pingwin/development/jellyfin-kinopoisk,target=/workspace-kinopoisk,type=bind,consistency=cached",
+    ],
+    "containerEnv": {
+        "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+    },
+}

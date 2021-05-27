@@ -10,6 +10,7 @@ from pytz import utc
 from sqlalchemy import Column, Integer, String
 
 from qbittorrentapi import Client
+from qbittorrentapi.exceptions import NotFound404Error
 
 from monitorrent.db import Base, DBSession
 from monitorrent.plugin_managers import register_plugin
@@ -113,15 +114,15 @@ class QBittorrentClientPlugin(object):
         if not client:
             return False
 
-        torrents = client.torrents_info(hashes=[torrent_hash.lower()])
-        if torrents:
-            added_on = torrents[0].info.added_on
-            result_date = datetime.fromtimestamp(added_on, utc)
+        try:
+            torrent = client.torrents_properties(torrent_hash.lower())
+            result_date = datetime.fromtimestamp(torrent.addition_date, utc)
             return {
-                "name": torrents[0].name,
+                "name": torrent.save_path,
                 "date_added": result_date
             }
-        return False
+        except NotFound404Error:
+            return False
 
     def get_download_dir(self):
         client = self.get_client()

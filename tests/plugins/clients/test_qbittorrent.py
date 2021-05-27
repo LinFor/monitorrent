@@ -8,6 +8,7 @@ from pytz import reference
 from requests import Response
 from requests_mock import Mocker
 import qbittorrentapi
+from qbittorrentapi.exceptions import NotFound404Error
 
 import monitorrent.plugins.trackers
 from monitorrent.plugins.clients import TopicSettings
@@ -67,19 +68,18 @@ class QBittorrentPluginTest(ReadContentMixin, DbTestCase):
         settings = self.DEFAULT_SETTINGS
         plugin.set_settings(settings)
 
-        torrent_info = new('torrent', {'name': 'Torrent 1', 'info': new('info', {'added_on': date_added.astimezone(pytz.utc).timestamp()})})
-        client.torrents_info.return_value = [torrent_info]
+        client.torrents_properties.return_value = new('torrent', {'save_path': 'Torrent 1', 'addition_date': date_added.astimezone(pytz.utc).timestamp()})
 
         torrent = plugin.find_torrent(torrent_hash)
 
         self.assertEqual({'name': 'Torrent 1', 'date_added': date_added.astimezone(pytz.utc)}, torrent)
 
-        client.torrents_info.assert_called_once_with(hashes=[torrent_hash.lower()])
+        client.torrents_properties.assert_called_once_with(torrent_hash.lower())
 
     @patch('monitorrent.plugins.clients.qbittorrent.Client')
     def test_find_torrent_failed(self, qbittorrent_client):
         client = qbittorrent_client.return_value
-        client.torrents_info.return_value = []
+        client.torrents_properties.side_effect = NotFound404Error("Test")
 
         plugin = QBittorrentClientPlugin()
         torrent_hash = "8347DD6415598A7409DFC3D1AB95078F959BFB93"
