@@ -152,13 +152,19 @@ class QBittorrentClientPlugin(object):
 
         savepath = None
         category = None
-        auto_tmm = None
+        auto_tmm = True
         if torrent_settings is not None:
             if torrent_settings.download_dir is not None:
                 savepath = torrent_settings.download_dir
                 auto_tmm = False
             if torrent_settings.download_category is not None:
                 category = torrent_settings.download_category
+                if savepath is None:
+                    try:
+                        categories = client.torrents_categories()
+                        savepath = categories[category].savePath
+                    except:
+                        savepath = None
 
         res = client.torrents_add(save_path=savepath, category=category, use_auto_torrent_management=auto_tmm, torrent_contents=[('file.torrent', torrent_content)])
         if 'Ok' in res:

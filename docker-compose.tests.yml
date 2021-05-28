@@ -1,10 +1,5 @@
 version: '2.4'
 
-networks:
-  default:
-    external:
-      name: default-network
-
 services:
   monitorrent-tests:
     build: 

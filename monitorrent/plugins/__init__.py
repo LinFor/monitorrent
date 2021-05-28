@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Integer, Boolean, String, MetaData, Table
-from sqlalchemy_enum34 import EnumType
+from sqlalchemy import Column, Integer, Boolean, String, Enum, MetaData, Table
 
 from monitorrent.db import Base, UTCDateTime
 from monitorrent.upgrade_manager import add_upgrade
@@ -28,7 +27,7 @@ class Topic(Base):
     url = Column(String, nullable=False, unique=True)
     last_update = Column(UTCDateTime, nullable=True)
     type = Column(String)
-    status = Column(EnumType(Status, by_name=True), nullable=False, server_default=Status.Ok.__str__())
+    status = Column(Enum(Status, by_name=True), nullable=False, server_default=Status.Ok.__str__())
     paused = Column(Boolean(create_constraint=False), nullable=False, server_default='0')
     download_dir = Column(String, nullable=True)
     download_category = Column(String, nullable=True)
