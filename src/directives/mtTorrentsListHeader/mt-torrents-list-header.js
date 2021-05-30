@@ -15,7 +15,7 @@ app.directive('mtTorrentsListHeader', function ($mdDialog, TopicsService, Client
                 };
 
                 $scope.add = function () {
-                    if ($scope.settings && $scope.settings.download_dir === $scope.client_download_dir) {
+                    if ($scope.settings && $scope.settings.download_dir && !$scope.settings.download_dir.trim()) {
                         $scope.settings.download_dir = null;
                     }
                     if ($scope.settings && $scope.settings.download_category === $scope.download_category) {
@@ -33,6 +33,7 @@ app.directive('mtTorrentsListHeader', function ($mdDialog, TopicsService, Client
                         $scope.form = data.form;
                         if ($scope.settings) {
                             data.settings.download_dir = $scope.settings.download_dir;
+                            data.settings.download_category = $scope.settings.download_category;
                         }
                         $scope.settings = data.settings;
                         $scope.isValid = true;
@@ -49,12 +50,11 @@ app.directive('mtTorrentsListHeader', function ($mdDialog, TopicsService, Client
                     $scope.has_download_dir = download_dir !== null && download_dir !== undefined;
                     $scope.client_download_dir = download_dir;
                     var download_categories = data.data.fields.download_category;
-                    $scope.has_download_category = download_categories !== null && download_categories !== undefined;
+                    $scope.has_download_category = download_categories !== null && download_categories !== undefined && Array.isArray(download_categories);
                     $scope.client_download_categories = download_categories;
                     if (!$scope.settings) {
                         $scope.settings = {};
                     }
-                    $scope.settings.download_dir = download_dir;
                     $scope.settings.download_category = download_categories[0];
                 });
             };

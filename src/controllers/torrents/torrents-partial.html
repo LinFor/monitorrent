@@ -19,7 +19,7 @@
             <!--<span ng-if="torrent.status != 'Ok'" class="center-text">{{torrent.status | uppercase}}</span>-->
 
             <md-menu class="md-secondary" md-position-mode="target-right target">
-                <md-button aria-label="Actions" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-button aria-label="Actions" class="md-icon-button" ng-click="$mdMenu.open($event)">
                     <md-icon md-menu-origin md-svg-icon="content/icons/more-vert.svg"></md-icon>
                 </md-button>
                 <md-menu-content width="3">

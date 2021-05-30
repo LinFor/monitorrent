@@ -50,7 +50,7 @@ app.controller('TorrentsController', function ($scope, $rootScope, TopicsService
 			$mdDialog.cancel();
 		};
 		$scope.save = function () {
-			if ($scope.settings && $scope.settings.download_dir === $scope.client_download_dir) {
+			if ($scope.settings && $scope.settings.download_dir && !$scope.settings.download_dir.trim()) {
 				$scope.settings.download_dir = null;
 			}
 			if ($scope.settings && $scope.settings.download_category === $scope.download_category) {
@@ -67,19 +67,18 @@ app.controller('TorrentsController', function ($scope, $rootScope, TopicsService
 			$scope.has_download_dir = download_dir !== null && download_dir !== undefined;
 			$scope.client_download_dir = download_dir;
 			var download_categories = data.data.fields.download_category;
-			$scope.has_download_category = download_categories !== null && download_categories !== undefined;
+			$scope.has_download_category = download_categories !== null && download_categories !== undefined && Array.isArray(download_categories);
 			$scope.client_download_categories = download_categories;
 			if (!$scope.settings) {
 				$scope.settings = {};
 			}
-			$scope.settings.download_dir = $scope.settings.download_dir || download_dir;
 			$scope.settings.download_category = $scope.settings.download_category || download_categories[0];
 		});
 		TopicsService.getSettings(id).success(function (data) {
 			$scope.form = data.form;
 			if ($scope.settings) {
 				if ($scope.has_download_dir)
-					data.settings.download_dir = data.settings.download_dir || $scope.settings.download_dir;
+					data.settings.download_dir = data.settings.download_dir;
 				if ($scope.has_download_category)
 					data.settings.download_category = data.settings.download_category || $scope.client_download_categories[0];
 			}

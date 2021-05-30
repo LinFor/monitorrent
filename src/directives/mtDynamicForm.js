@@ -78,7 +78,7 @@ app.directive('mtDynamicForm', function($compile, $parse) {
                 if (data) {
                     var model = attrs.model;
                     var newElements = createForm(data, model);
-                    for (var i = 0; i < newElements.length; i++) {
+                    for (let i = 0; i < newElements.length; i++) {
                         newElements[i] = $compile(newElements[i])($scope);
                     }
                     if (Array.isArray(sourceElement)) {
@@ -87,11 +87,11 @@ app.directive('mtDynamicForm', function($compile, $parse) {
                         }
                         sourceElement = sourceElement.pop();
                     }
-                    var newElement = newElements.shift()
+                    var newElement = newElements.shift();
                     sourceElement.replaceWith(newElement);
                     if (newElements && newElements.length > 0) {
-                        for (var i = 0; i < newElements.length; i++) {
-                            newElement.after(newElements[i])
+                        for (let i = 0; i < newElements.length; i++) {
+                            newElement.after(newElements[i]);
                             newElement = newElements[i];
                         }
                     }

@@ -16,7 +16,7 @@
         <div layout="row" ng-if="has_download_dir != null">
             <md-input-container flex>
                 <label>Download dir</label>
-                <input type="text" ng-model="settings.download_dir" ng-disabled="has_download_dir == false">
+                <input type="text" ng-model="settings.download_dir" placeholder="{{client_download_dir}}" ng-disabled="has_download_dir == false">
                 <div ng-if="has_download_dir == false">
                     <div class="md-input-message-animation">{{default_client}} doesn't support download dir settings</div>
                 </div>

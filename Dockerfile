@@ -1,8 +1,12 @@
-FROM python:3-slim-buster AS builder
+FROM node:10-buster-slim AS builder
 
-# Installing nodejs, npm and gulp
-RUN apt-get update \
- && apt-get install -yq --no-install-recommends nodejs npm \
+# # Installing nodejs, npm and gulp
+# RUN echo "deb http://deb.debian.org/debian buster-backports main" > /etc/apt/sources.list.d/buster-backports.list \
+#  && apt-get update \
+#  && apt-get install -yq --no-install-recommends nodejs npm \
+#  && npm install --global gulp-cli
+
+RUN npm install -g npm@7.14.0 \
  && npm install --global gulp-cli
 
 WORKDIR /app/monitorrent
@@ -14,7 +18,6 @@ RUN npm install
 # Build app
 COPY . /app/monitorrent
 RUN gulp dist
-
 
 
 # Runtime image
