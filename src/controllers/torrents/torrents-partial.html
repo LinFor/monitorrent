@@ -2,7 +2,7 @@
     <mt-torrents-execute-header torrents="torrents"></mt-torrents-execute-header>
     <mt-torrents-list-header></mt-torrents-list-header>
     <md-list>
-        <md-list-item layout class="md-2-line"
+        <md-list-item layout class="md-2-line md-no-proxy"
             ng-repeat="torrent in torrents | orderBy: smartOrder: orderReverse | filter: smartFilter"
             ng-class="{'color-warn': torrent.status == 'Not Found' && !torrent.paused, 'color-failed': torrent.status == 'Error' && !torrent.paused, 'color-paused': torrent.paused}">
             <a ng-href="{{torrent.url}}" target="_blank" hide-xs>
