@@ -154,12 +154,12 @@ class QBittorrentClientPlugin(object):
         category = None
         auto_tmm = True
         if torrent_settings is not None:
-            if torrent_settings.download_dir is not None:
+            if torrent_settings.download_dir:
                 savepath = torrent_settings.download_dir
                 auto_tmm = False
-            if torrent_settings.download_category is not None:
+            if torrent_settings.download_category:
                 category = torrent_settings.download_category
-                if savepath is None:
+                if not savepath:
                     try:
                         categories = client.torrents_categories()
                         savepath = categories[category].savePath
@@ -173,7 +173,7 @@ class QBittorrentClientPlugin(object):
             repeat_cnt = 30
             while True:
                 found = self.find_torrent(torrent_hash)
-                if found and found["date_added"]:
+                if found and bool(found["date_added"]):
                     return True
                 if repeat_cnt == 0:
                     return False
