@@ -481,6 +481,8 @@ class ExecuteLogManager(object):
                     .filter(Execute.id <= execute_id) \
                     .delete(synchronize_session=False)
 
+                db.execute("VACUUM")
+
     def is_running(self, execute_id=None):
         if execute_id is not None:
             return self._execute_id == execute_id
